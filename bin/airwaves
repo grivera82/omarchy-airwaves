@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Airwaves CLI (standard-library Python, needs mpv). Bind keys to e.g.
+# `airwaves toggle`, `airwaves next`, `airwaves like`.
+ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
+exec env PYTHONDONTWRITEBYTECODE=1 python3 "$ROOT/lib/airwaves.py" "$@"
