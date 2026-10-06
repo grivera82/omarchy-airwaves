@@ -1005,7 +1005,7 @@ class Engine:
 
     def launch(self, playlist):
         if not shutil.which("mpv"):
-            raise OSError("mpv isn't installed (omarchy pkg add mpv)")
+            raise OSError("mpv isn't installed; install the mpv package")
         try:
             os.remove(MPV_SOCK)
         except OSError:

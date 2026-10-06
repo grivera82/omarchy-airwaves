@@ -58,8 +58,8 @@ Airwaves never touches your Omarchy or Hyprland configuration. It writes only to
 
 ## Requirements
 
-- `mpv` (`omarchy pkg add mpv`)
-- `mpv-mpris` for media keys (`omarchy pkg add mpv-mpris` if it isn't installed yet)
+- `mpv` (the `mpv` package)
+- `mpv-mpris` for media keys (the `mpv-mpris` package, if it isn't installed yet)
 - Python 3 (standard library only)
 - Optional: `wl-copy` (wl-clipboard) for Copy, and `xdg-open` or Omarchy's `omarchy-launch-webapp` to open search links and support pages. Omarchy includes both.
 - Network access to the stations' streams and APIs: `somafm.com`, `radioparadise.com`, `nts.live`, `radiofrance.fr`, plus `itunes.apple.com` if album art lookup is on. No account or key is needed. Airwaves isn't affiliated with any of these broadcasters.

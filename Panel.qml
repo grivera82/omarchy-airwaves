@@ -363,7 +363,7 @@ Panel {
             wrapMode: Text.WordWrap
             text: !root.svc ? "Service not loaded"
               : !root.svc.running ? "Backend stopped, restarting…"
-              : root.st.mpv === false ? "mpv isn't installed. Run: omarchy pkg add mpv"
+              : root.st.mpv === false ? "mpv isn't installed. Install the mpv package to play radio."
               : root.svc.lastError || root.st.error || ""
             color: root.urgent
             font.family: root.fontFamily
@@ -804,7 +804,7 @@ Panel {
               width: parent.width
               wrapMode: Text.WordWrap
               text: (root.st.mpris ? "Media keys work out of the box: play/pause, and next/previous switch stations."
-                                   : "Install mpv-mpris (omarchy pkg add mpv-mpris) so media keys can control Airwaves.")
+                                   : "Install the mpv-mpris package so media keys can control Airwaves.")
                 + "\n\nFor your own bindings:\n" + (root.svc ? root.svc.cli : "airwaves") + " toggle | next | prev | like | stop | play <name> | volume +5 | sleep 30"
               color: root.dim
               font.family: root.fontFamily
