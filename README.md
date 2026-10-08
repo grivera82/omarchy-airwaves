@@ -87,6 +87,10 @@ o.bind("SUPER + ALT + R", "Radio play/pause", "~/.config/omarchy/plugins/grivera
 o.bind("SUPER + ALT + L", "Like this song", "~/.config/omarchy/plugins/grivera.airwaves/bin/airwaves like")
 ```
 
+## Status for scripts and voice assistants
+
+`omarchy-shell grivera.airwaves status` prints a JSON summary: what's playing, the station, volume, sleep timer, recent songs and favorite stations. Voice assistants such as [Jarvis](https://github.com/grivera82/omarchy-jarvis) use it to answer questions. It only reads, and works while the widget is in the bar.
+
 ## Your own stations
 
 Use **Settings → Your stations**, or edit `~/.config/grivera-airwaves/stations.json` directly:

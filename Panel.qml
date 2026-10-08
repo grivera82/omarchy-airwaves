@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
 import Quickshell
+import Quickshell.Io
 import qs.Ui
 import qs.Commons
 
@@ -11,6 +12,41 @@ Panel {
   id: root
   moduleName: "grivera.airwaves"
   ipcTarget: "grivera.airwaves"
+  manageIpc: false
+
+  // Panel commands plus status(), which voice assistants (Jarvis) and scripts
+  // read: `omarchy-shell grivera.airwaves status`.
+  IpcHandler {
+    target: root.ipcTarget
+    function open(): void { root.open() }
+    function close(): void { root.close() }
+    function show(): void { root.open() }
+    function hide(): void { root.close() }
+    function toggle(): void { root.toggle() }
+    function status(): string { return JSON.stringify(root.statusSummary()) }
+  }
+
+  function statusTime(ts) { return ts ? Qt.formatDateTime(new Date(ts * 1000), "ddd MMM d, h:mm AP") : "" }
+
+  // What's on, the station, and the last few songs.
+  function statusSummary() {
+    if (!svc) return { error: "Airwaves isn't running" }
+    var s = svc.state || {}
+    var st = s.station, t = s.track
+    var o = { status: s.status || "stopped", volume: s.volume, muted: !!s.muted }
+    if (st) o.station = { name: st.name, network: st.net, genre: st.genre, about: (st.desc || "").slice(0, 160),
+                          listeners: st.listeners || null }
+    if (t && (t.title || t.artist)) o.nowPlaying = { title: t.title || "", artist: t.artist || "", album: t.album || "", show: !!t.show }
+    if (s.sleepAt) o.sleepTimerEnds = root.statusTime(s.sleepAt)
+    o.recentSongs = (s.history || []).slice(0, 6).map(function(h) { return h.artist + " - " + h.title + " (" + h.stationName + ")" })
+    o.favoriteStations = (s.favorites || []).map(function(id) {
+      var x = (s.stations || []).filter(function(y) { return y.id === id })[0]
+      return x ? x.name : id
+    })
+    o.likedSongs = (s.liked || []).length
+    return o
+  }
+
 
   readonly property var svc: root.bar && root.bar.shell ? root.bar.shell.serviceFor("grivera.airwaves") : null
   readonly property var st: svc ? svc.state : ({})
