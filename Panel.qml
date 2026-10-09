@@ -394,6 +394,7 @@ Panel {
           }
 
           Text {
+            textFormat: Text.PlainText
             visible: text !== ""
             width: parent.width
             wrapMode: Text.WordWrap
@@ -503,6 +504,7 @@ Panel {
               }
               Text {
                 id: volText
+                textFormat: Text.PlainText
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 width: Style.space(30)
@@ -522,6 +524,7 @@ Panel {
 
               Text {
                 id: sleepLabel
+                textFormat: Text.PlainText
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 text: root.gSleep + "  Sleep"
@@ -546,6 +549,7 @@ Panel {
                 onChanged: function(v) { root.sleepChoice = v; root.svc.send("sleep", { minutes: Number(v) }) }
               }
               Text {
+                textFormat: Text.PlainText
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 visible: !!root.st.sleepAt
@@ -610,6 +614,7 @@ Panel {
             }
 
             Text {
+              textFormat: Text.PlainText
               visible: root.visibleStations.length === 0
               width: parent.width
               topPadding: Style.space(18)
@@ -660,6 +665,7 @@ Panel {
                 anchors.margins: Style.space(12)
                 spacing: Style.space(8)
                 Text {
+                  textFormat: Text.PlainText
                   width: parent.width
                   wrapMode: Text.WordWrap
                   text: aboutBox.n ? aboutBox.n.about : ""
@@ -681,6 +687,7 @@ Panel {
             }
 
             Text {
+              textFormat: Text.PlainText
               width: parent.width
               wrapMode: Text.WordWrap
               text: "Click to play · ★ to favorite · next/previous step through the list you started from. Keys: j/k move, Enter play, f favorite, h/l switch network, / search."
@@ -698,6 +705,7 @@ Panel {
             spacing: Style.space(2)
 
             Text {
+              textFormat: Text.PlainText
               visible: root.svc && root.svc.liked.length === 0
               width: parent.width
               topPadding: Style.space(24)
@@ -758,6 +766,7 @@ Panel {
 
             PanelSectionHeader { text: "YOUR STATIONS"; foreground: root.fg; fontFamily: root.fontFamily }
             Text {
+              textFormat: Text.PlainText
               width: parent.width
               wrapMode: Text.WordWrap
               text: "Add any Icecast/Shoutcast stream. It shows up under Mine."
@@ -812,6 +821,7 @@ Panel {
                 width: parent.width
                 height: Style.space(26)
                 Text {
+                  textFormat: Text.PlainText
                   anchors.left: parent.left
                   anchors.right: rm.left
                   anchors.verticalCenter: parent.verticalCenter
@@ -973,6 +983,7 @@ Panel {
             color: card.tint
           }
           Text {
+            textFormat: Text.PlainText
             text: (root.station ? root.net(root.station.net).name : "").toUpperCase()
             color: root.fg
             font.family: root.fontFamily
@@ -981,6 +992,7 @@ Panel {
             font.letterSpacing: 1.2
           }
           Text {
+            textFormat: Text.PlainText
             text: root.status === "buffering" ? "· TUNING IN" : root.status === "paused" ? "· PAUSED" : "· " + root.gLive + " LIVE"
             color: root.status === "playing" ? root.urgent : root.dim
             opacity: root.status === "buffering" ? root.pulse : 1
@@ -1044,6 +1056,7 @@ Panel {
             anchors.verticalCenter: parent.verticalCenter
           }
           Text {
+            textFormat: Text.PlainText
             readonly property bool fav: root.station && root.svc && root.svc.isFavorite(root.station.id)
             text: fav ? root.gStar : root.gStarO
             color: fav ? Color.accent : root.dim
@@ -1060,6 +1073,7 @@ Panel {
         }
 
         Text {
+          textFormat: Text.PlainText
           visible: root.st.bitrate > 0
           text: root.st.bitrate + " kbps " + (root.st.codec || "").toUpperCase() + (root.station && root.station.listeners ? "   " + root.gPeople + " " + root.compact(root.station.listeners) : "")
           color: root.dim
@@ -1095,6 +1109,7 @@ Panel {
           spacing: Style.space(10)
 
           Text {
+            textFormat: Text.PlainText
             anchors.horizontalCenter: parent.horizontalCenter
             text: root.gRadio
             color: Color.accent
@@ -1102,6 +1117,7 @@ Panel {
             font.pixelSize: Style.font.displayLarge * 1.5
           }
           Text {
+            textFormat: Text.PlainText
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
             text: "Airwaves"
@@ -1111,6 +1127,7 @@ Panel {
             font.bold: true
           }
           Text {
+            textFormat: Text.PlainText
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
@@ -1156,6 +1173,7 @@ Panel {
               Behavior on scale { NumberAnimation { duration: 120 } }
             }
             Text {
+              textFormat: Text.PlainText
               anchors.bottom: parent.bottom
               width: parent.width
               horizontalAlignment: Text.AlignHCenter
@@ -1329,6 +1347,7 @@ Panel {
         width: parent.width - Style.space(8)
         spacing: 0
         Text {
+          textFormat: Text.PlainText
           width: parent.width
           horizontalAlignment: Text.AlignHCenter
           text: cov.stationRef ? root.net(cov.stationRef.net).short.toUpperCase() : root.gRadio
@@ -1340,6 +1359,7 @@ Panel {
           font.letterSpacing: 1
         }
         Text {
+          textFormat: Text.PlainText
           width: parent.width
           horizontalAlignment: Text.AlignHCenter
           text: cov.stationRef ? cov.stationRef.name.replace(/^(FIP|NTS)\s*/, "") || cov.stationRef.name : ""
@@ -1477,6 +1497,7 @@ Panel {
         visible: rowMouse.containsMouse || row.current
         color: Qt.rgba(0, 0, 0, 0.45)
         Text {
+          textFormat: Text.PlainText
           visible: rowMouse.containsMouse && !(row.current && root.status === "playing")
           anchors.centerIn: parent
           text: root.gPlay
@@ -1522,6 +1543,7 @@ Panel {
         }
         Text {
           id: netTag
+          textFormat: Text.PlainText
           visible: root.filter === "all" || root.filter === "fav" || root.query !== ""
           anchors.baseline: nameText.baseline
           text: root.net(row.s.net).short
@@ -1560,6 +1582,7 @@ Panel {
       anchors.verticalCenter: parent.verticalCenter
       spacing: Style.space(4)
       Text {
+        textFormat: Text.PlainText
         visible: row.s.listeners > 0
         anchors.verticalCenter: parent.verticalCenter
         text: root.gPeople + " " + root.compact(row.s.listeners)
@@ -1681,6 +1704,7 @@ Panel {
     implicitHeight: Math.max(lbl.implicitHeight, holder.childrenRect.height)
     Text {
       id: lbl
+      textFormat: Text.PlainText
       anchors.left: parent.left
       anchors.verticalCenter: parent.verticalCenter
       text: setRow.label
