@@ -1441,9 +1441,11 @@ Panel {
       cursorShape: Qt.PointingHandCursor
       onClicked: rb.clicked()
     }
-    ToolTip.visible: rbMouse.containsMouse && rb.tip !== ""
-    ToolTip.text: rb.tip
-    ToolTip.delay: 500
+    PanelToolTip {
+      visible: rbMouse.containsMouse && rb.tip !== ""
+      text: rb.tip
+      delay: 500
+    }
   }
 
   component StationRow: Item {

@@ -34,6 +34,7 @@ import subprocess
 import sys
 import threading
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -146,9 +147,31 @@ def save_json(path, data, indent=None):
     os.replace(tmp, path)
 
 
+def is_web_url(url):
+    return isinstance(url, str) and urllib.parse.urlsplit(url).scheme in ("http", "https")
+
+
+class WebRedirects(urllib.request.HTTPRedirectHandler):
+    """Follow redirects only to http(s); urllib's default also allows ftp."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        if not is_web_url(urllib.parse.urljoin(req.full_url, newurl)):
+            raise urllib.error.HTTPError(newurl, code, "redirect to a non-web URL", headers, fp)
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+# Feeds hand us URLs, so only web schemes get a handler (no file:, ftp: or data:).
+WEB = urllib.request.OpenerDirector()
+for _h in (urllib.request.ProxyHandler(), urllib.request.HTTPHandler(), urllib.request.HTTPSHandler(),
+           WebRedirects(), urllib.request.HTTPDefaultErrorHandler(), urllib.request.HTTPErrorProcessor()):
+    WEB.add_handler(_h)
+
+
 def http_get(url, timeout=10):
+    if not is_web_url(url):
+        raise ValueError("not an http(s) URL")
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Encoding": "gzip"})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
+    with WEB.open(req, timeout=timeout) as r:
         data = r.read()
         ctype = r.headers.get("Content-Type", "")
     if data[:2] == b"\x1f\x8b":
@@ -232,6 +255,8 @@ class ArtCache:
         self.lock = threading.Lock()
         self.pool = concurrent.futures.ThreadPoolExecutor(4)
         os.makedirs(ART_DIR, exist_ok=True)
+        for d in (CACHE_DIR, ART_DIR):  # older versions created these 0755
+            os.chmod(d, 0o700)
         self.prune()
 
     @staticmethod
@@ -239,10 +264,8 @@ class ArtCache:
         return os.path.join(ART_DIR, hashlib.sha1(url.encode()).hexdigest()[:24])
 
     def get(self, url):
-        if not url:
+        if not is_web_url(url):
             return ""
-        if url.startswith("/"):
-            return url if os.path.exists(url) else ""
         p = self.path(url)
         if os.path.exists(p):
             return p
@@ -1775,6 +1798,7 @@ def serve_control(engine, emit):
 
 
 def daemon():
+    os.umask(0o077)
     lock = threading.Lock()
 
     def emit(obj):
