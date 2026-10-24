@@ -1,5 +1,9 @@
 # Airwaves (grivera.airwaves)
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Omarchy plugin marketplace](https://img.shields.io/badge/Omarchy-plugin%20marketplace-2f6f4f.svg)](https://plugins.omarchy.org/plugin.html?id=grivera.airwaves)
+
+> Part of the [Omarchy plugin marketplace](https://plugins.omarchy.org/plugin.html?id=grivera.airwaves), listed as **Airwaves** (plugin ID `grivera.airwaves`). The marketplace registry lives at [omacom/omarchy-plugin-marketplace](https://github.com/omacom/omarchy-plugin-marketplace).
+
 Ad-free internet radio for the Omarchy bar. Airwaves has 80 stations from broadcasters that are listener-supported and play no commercials. A live visualizer and the current song sit right in your bar.
 
 ![Airwaves: Now Playing, station search and liked songs, plus the bar widget](preview.png)
@@ -42,6 +46,18 @@ rm -rf ~/.cache/grivera-airwaves ~/.local/state/grivera-airwaves ~/.config/grive
 mpv runs as its own process so music survives shell reloads, which is why the radio should be stopped before removing the plugin. If you forget, stop it from the media controls.
 
 Airwaves never touches your Omarchy or Hyprland configuration. It writes only to the folders listed under [Files](#files).
+
+### Manual install
+
+To install without the plugin manager, clone the repository into Omarchy's
+plugin folder, check it with Omarchy's validator, then rescan and enable it:
+
+```
+git clone https://github.com/grivera82/omarchy-airwaves.git ~/.config/omarchy/plugins/grivera.airwaves
+omarchy plugin validate ~/.config/omarchy/plugins/grivera.airwaves
+omarchy-shell shell rescanPlugins
+omarchy plugin enable grivera.airwaves --section right
+```
 
 ## What it does
 
@@ -113,4 +129,4 @@ Airwaves contacts only the stations' own servers and APIs. With **Find album art
 
 ## License
 
-MIT
+[MIT](LICENSE)
